@@ -1,8 +1,26 @@
 ﻿@page "/library"
 
-<!-- Bosing, Leanne Cassandra R.-->
+<!-- Bosing, Leanne Cassandra R. -->
 <!-- BSIT - 601 -->
 
+<!-- Search -->
+<SectionContent SectionName="page-buttons">
+    <div id="searchBox" class="input-group header-search" style="@(ShowSearchBox ? "" : "display:none;")">
+        <span class="input-group-text text-warning"><i class="fa fa-search"></i></span>
+        <input id="txtSearch" type="text" class="form-control" placeholder="Search"
+               value="@Search"
+               @oninput="OnSearchChanged" />
+        <span class="input-group-text" @onclick="HideSearchBox" style="cursor:pointer;">
+            <i class="fa fa-times"></i>
+        </span>
+    </div>
+    
+    <span id="controlBox" style="@(ShowSearchBox ? "display:none;" : "")">
+        <button class="btn text-warning" @onclick="ShowSearchBoxFunc">
+            <i class="fa fa-search"></i>
+        </button>
+    </span>
+</SectionContent>
 
 <div class="main-container">
     <!-- Header -->
@@ -26,7 +44,7 @@
             <button class="category-btn @(CurrentCategory == "fantasy" ? "active" : "")" @onclick="@(() => SetCategory("fantasy"))">Fantasy</button>
             <button class="category-btn @(CurrentCategory == "cooking" ? "active" : "")" @onclick="@(() => SetCategory("cooking"))">Cooking</button>
             <button class="category-btn @(CurrentCategory == "nature" ? "active" : "")" @onclick="@(() => SetCategory("nature"))">Nature</button>
-            <button class="category-btn @(CurrentCategory == "favorites" ? "active" : "")" @onclick="@(() => SetCategory("favorites"))">❤︎ Favorites</button>
+            <button class="category-btn @(CurrentCategory == "favorites" ? "active" : "")" @onclick="@(() => SetCategory("favorites"))">❤️ Favorites</button>
         </div>
         <div class="view-flex">
             <button class="view-btn rounded-left @(CurrentView == "grid" ? "active" : "")" @onclick="@(() => SetView("grid"))">
@@ -43,57 +61,91 @@
         </div>
     </div>
 
-    <!-- Books Grid View -->
-    <div id="grid-view" class="@(CurrentView == "grid" ? "" : "hidden") books-grid">
-        @foreach (var book in FilteredBooks)
-        {
-            <div class="book-card">
-                <div class="book-cover mb-4 relative" style="background-color: @(GetGenreColor(book.Category)); height: 200px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <img class="book-cover-image" src="@($"/imgs/books/{book.Image}")" alt="@book.Title" />
-                    <span class="genre-color-label" style="background-color:@GetGenreColor(book.Category);">
-                        @book.Category
-                    </span>
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-lg font-bold text-[#8B5E3C]">@book.Title</h3>
-                    <button class="favorite-btn text-2xl">♡</button>
-                </div>
-                <p class="text-[#A67C52] text-sm mb-2">by @book.Author</p>
-                <p class="text-[#8B5E3C] text-sm mb-4 flex-grow">@book.Description</p>
-                <div class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded cursor-default select-none">
-                    Buy on Amazon
-                </div>
-            </div>
-        }
-    </div>
-
-    <!-- Books List View -->
-    <div id="list-view" class="@(CurrentView == "list" ? "" : "hidden") books-list">
-        @foreach (var book in FilteredBooks)
-        {
-            <div class="book-card book-card-list">
-                <div class="book-cover-list" style="background-color:@GetGenreColor(book.Category);">
-                    <img class="book-cover-image" src="@($"/imgs/books/{book.Image}")" alt="@book.Title" />
-                </div>
-                <div class="book-list-content">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold text-[#8B5E3C]">@book.Title</h3>
-                        <button class="favorite-btn text-2xl">♡</button>
-                    </div>
-                    <p class="text-[#A67C52] text-sm mb-2">by @book.Author</p>
-                    <p class="text-[#8B5E3C] text-sm mb-4">@book.Description</p>
-                    <div class="flex items-center gap-2">
-                        <span class="px-3 py-1 text-white text-xs rounded-full" style="background-color:@GetGenreColor(book.Category);">
+    @if (!FilteredBooks.Any())
+    {
+        <div class="empty-state">
+            @if (CurrentCategory == "favorites")
+            {
+                <svg class="w-20 h-20 mx-auto mb-4" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="30" fill="#FF8EBB" />
+                    <path d="M24 39c0-5 4-9 9-9 3 0 5 2 7 4 2-2 4-4 7-4 5 0 9 4 9 9 0 10-16 15-16 15s-16-5-16-15z" fill="#fff" />
+                </svg>
+                <h3 class="text-xl font-bold text-[#FF8EBB] mb-2">No favorites yet</h3>
+                <p class="text-[#A67C52]">Click the heart <span style="font-size:1.2em;">♡</span> on a book to add it to your favorites!</p>
+            }
+            else
+            {
+                <svg class="w-20 h-20 mx-auto mb-4" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="30" fill="#FFB7B2" />
+                    <circle cx="30" cy="35" r="3" fill="#8B5E3C" />
+                    <circle cx="50" cy="35" r="3" fill="#8B5E3C" />
+                    <path d="M30 50 Q40 40 50 50" stroke="#8B5E3C" stroke-width="2" fill="none" />
+                </svg>
+                <h3 class="text-xl font-bold text-[#8B5E3C] mb-2">No books found</h3>
+                <p class="text-[#A67C52]">Try selecting a different category or add some favorites!</p>
+            }
+        </div>
+    }
+    else
+    {
+        <!-- Books Grid View -->
+        <div id="grid-view" class="@(CurrentView == "grid" ? "" : "hidden") books-grid">
+            @foreach (var book in FilteredBooks)
+            {
+                <div class="book-card">
+                    <div class="book-cover mb-4 relative" style="background-color: @(GetGenreColor(book.Category)); height: 200px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <img class="book-cover-image" src="@($"/imgs/books/{book.Image}")" alt="@book.Title" />
+                        <span class="genre-color-label" style="background-color:@GetGenreColor(book.Category);">
                             @book.Category
                         </span>
-                        <div class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded cursor-default select-none">
-                            Buy on Amazon
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-bold text-[#8B5E3C]">@book.Title</h3>
+                        <button class="favorite-btn text-2xl transition-all duration-200 @(book.Favorite ? "text-[#FF8EBB]" : "text-[#FF9AA2]")"
+                                @onclick="@(() => ToggleFavorite(book))">
+                            @((book.Favorite ? "❤️" : "♡"))
+                        </button>
+                    </div>
+                    <p class="text-[#A67C52] text-sm mb-2">by @book.Author</p>
+                    <p class="text-[#8B5E3C] text-sm mb-4 flex-grow">@book.Description</p>
+                    <div class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded cursor-default select-none">
+                        Buy on Amazon
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Books List View -->
+        <div id="list-view" class="@(CurrentView == "list" ? "" : "hidden") books-list">
+            @foreach (var book in FilteredBooks)
+            {
+                <div class="book-card book-card-list">
+                    <div class="book-cover-list" style="background-color:@GetGenreColor(book.Category);">
+                        <img class="book-cover-image" src="@($"/imgs/books/{book.Image}")" alt="@book.Title" />
+                    </div>
+                    <div class="book-list-content">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-[#8B5E3C]">@book.Title</h3>
+                            <button class="favorite-btn text-2xl transition-all duration-200 @(book.Favorite ? "text-[#FF8EBB]" : "text-[#FF9AA2]")"
+                                    @onclick="@(() => ToggleFavorite(book))">
+                                @((book.Favorite ? "❤️" : "♡"))
+                            </button>
+                        </div>
+                        <p class="text-[#A67C52] text-sm mb-2">by @book.Author</p>
+                        <p class="text-[#8B5E3C] text-sm mb-4">@book.Description</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 text-white text-xs rounded-full" style="background-color:@GetGenreColor(book.Category);">
+                                @book.Category
+                            </span>
+                            <div class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded cursor-default select-none">
+                                Buy on Amazon
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
 </div>
 
 @code {
@@ -108,22 +160,6 @@
         public bool Favorite { get; set; }
     }
 
-    // Enhanced pastel colors (one per genre, more vibrant)
-    private readonly Dictionary<string, string> GenreColors = new()
-    {
-        { "fantasy", "#FFA07A" },   // Vibrant pastel orange/salmon
-        { "cooking", "#FFD36E" },   // Vibrant pastel yellow
-        { "nature",  "#7EE4A9" },   // Vibrant pastel green
-        { "favorites", "#FF8EBB" }, // Vibrant pink for favorites
-        { "default", "#F7A1FF" }    // Fallback vibrant pastel purple
-    };
-
-    private string GetGenreColor(string category)
-    {
-        if (string.IsNullOrWhiteSpace(category)) return GenreColors["default"];
-        category = category.ToLower();
-        return GenreColors.TryGetValue(category, out var color) ? color : GenreColors["default"];
-    }
 
     private List<Book> Books = new()
     {
@@ -133,7 +169,8 @@
             Image = "HarryPotter.jpg",
             Category = "fantasy",
             Description = "Harry is unexpectedly entered into a deadly magical tournament.",
-            AmazonId = "0439139600"
+            AmazonId = "0439139600",
+            Favorite = false
         },
         new Book {
             Title = "Salt, Fat, Acid, Heat",
@@ -141,7 +178,8 @@
             Image = "SaltFatAcidHeat.jpg",
             Category = "cooking",
             Description = "A guide to mastering the four essential elements of great cooking.",
-            AmazonId = "1476753830"
+            AmazonId = "1476753830",
+            Favorite = false
         },
         new Book {
             Title = "Braiding Sweetgrass",
@@ -149,7 +187,8 @@
             Image = "BraidingSweetgrass.jpg",
             Category = "nature",
             Description = "A botanist combines Indigenous wisdom and science to explore our relationship with nature.",
-            AmazonId = "1571313567"
+            AmazonId = "1571313567",
+            Favorite = false
         },
         new Book {
             Title = "The Hobbit",
@@ -157,7 +196,8 @@
             Image = "TheHobbit.jpg",
             Category = "fantasy",
             Description = "A reluctant hobbit embarks on a quest to reclaim a mountain from a dragon.",
-            AmazonId = "054792822X"
+            AmazonId = "054792822X",
+            Favorite = false
         },
         new Book {
             Title = "The Hidden Life of Trees",
@@ -165,7 +205,8 @@
             Image = "TheHiddenLifeOfTrees.jpg",
             Category = "nature",
             Description = "Reveals the secret communication and social networks of trees within forests.",
-            AmazonId = "1771642483"
+            AmazonId = "1771642483",
+            Favorite = false
         },
         new Book {
             Title = "Kitchen Confidential",
@@ -173,7 +214,8 @@
             Image = "KitchenConfidential.jpg",
             Category = "cooking",
             Description = "A candid memoir revealing the gritty realities of the culinary world from a chef's perspective.",
-            AmazonId = "0060899220"
+            AmazonId = "0060899220",
+            Favorite = false
         },
         new Book {
             Title = "The Joy of Cooking",
@@ -181,7 +223,8 @@
             Image = "JoyOfCooking.jpg",
             Category = "cooking",
             Description = "An enduring kitchen staple offering comprehensive recipes and techniques for cooks of all levels.",
-            AmazonId = "1501169718"
+            AmazonId = "1501169718",
+            Favorite = false
         },
         new Book {
             Title = "A Court of Thorns and Roses",
@@ -189,7 +232,8 @@
             Image = "aCourtOfThornsAndRoses.jpg",
             Category = "fantasy",
             Description = "A mortal girl is taken to a magical land as punishment and uncovers deadly secrets.",
-            AmazonId = "B00OZP5VRS"
+            AmazonId = "B00OZP5VRS",
+            Favorite = false
         },
         new Book {
             Title = "Percy Jackson & The Olympians: The Lightning Thief ",
@@ -197,7 +241,8 @@
             Image = "PercyJackson.jpg",
             Category = "fantasy",
             Description = "A boy discovers he's a demigod and must retrieve Zeus' stolen lightning bolt.",
-            AmazonId = "0786838655"
+            AmazonId = "0786838655",
+            Favorite = false
         },
         new Book {
             Title = "A Walk in the Woods",
@@ -205,21 +250,26 @@
             Image = "AWalkintheWoods.jpg",
             Category = "nature",
             Description = "Stories of exploration and discovery in the highest mountains.",
-            AmazonId = "0767902521"
+            AmazonId = "0767902521",
+            Favorite = false
         }
     };
 
-    <!-- Category Feature -->
+    <!-- search -->
+    private string Search { get; set; } = string.Empty;
+    private bool ShowSearchBox { get; set; } = false;
+
+
+    <!-- Category and favorites feature -->
     private string CurrentCategory = "all";
     private string CurrentView = "grid";
 
     private IEnumerable<Book> FilteredBooks =>
-        CurrentCategory switch
-        {
-            "all" => Books,
-            "favorites" => Books.Where(b => b.Favorite),
-            _ => Books.Where(b => b.Category == CurrentCategory)
-        };
+        Books.Where(book =>
+            (string.IsNullOrWhiteSpace(Search) || book.Title.Contains(Search, StringComparison.OrdinalIgnoreCase)) &&
+            (CurrentCategory == "all" ? true :
+                (CurrentCategory == "favorites" ? book.Favorite : book.Category == CurrentCategory))
+        );
 
     private void SetCategory(string category)
     {
@@ -229,5 +279,41 @@
     private void SetView(string view)
     {
         CurrentView = view;
+    }
+
+    private void ToggleFavorite(Book book)
+    {
+        book.Favorite = !book.Favorite;
+    }
+
+    private void ShowSearchBoxFunc()
+    {
+        ShowSearchBox = true;
+    }
+
+    private void HideSearchBox()
+    {
+        ShowSearchBox = false;
+        Search = string.Empty;
+    }
+
+    private void OnSearchChanged(ChangeEventArgs e)
+    {
+        Search = e.Value?.ToString() ?? "";
+    }
+
+    private string GetGenreColor(string category)
+    {
+        var GenreColors = new Dictionary<string, string>
+        {
+            { "fantasy", "#FFA07A" },
+            { "cooking", "#FFD36E" },
+            { "nature",  "#7EE4A9" },
+            { "favorites", "#FF8EBB" },
+            { "default", "#F7A1FF" }
+        };
+        if (string.IsNullOrWhiteSpace(category)) return GenreColors["default"];
+        category = category.ToLower();
+        return GenreColors.TryGetValue(category, out var color) ? color : GenreColors["default"];
     }
 }

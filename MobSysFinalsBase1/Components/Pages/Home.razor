@@ -1,19 +1,31 @@
 ﻿@page "/"
+
 <SectionContent SectionName="page-buttons">
     <div id="searchBox" class="input-group header-search" style="display:none;">
         <span class="input-group-text text-warning"><i class="fa fa-search"></i></span>
-        <input id="txtSearch" type="text" class="form-control" placeholder="Search" value="@Model.Search" @onchange="SearchTerm" />
+        <input id="txtSearch" type="text" class="form-control" placeholder="Search" />
         <span class="input-group-text" onclick="hideSearchBox()"><i class="fa fa-times"></i></span>
     </div>
     <span id="controlBox">
         <button class="btn text-warning" onclick="showSearchBox()">
             <i class="fa fa-search"></i>
         </button>
-    </span>    
+    </span>
 </SectionContent>
-<section>
-    <h1>Welcome</h1>
-</section>
+
+<div class="header-bg text-center mb-8 py-6 rounded-xl" style="max-width:440px; margin:3rem auto 0;">
+    <div class="header-flex">
+        <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+            <rect x="5" y="5" width="30" height="30" rx="2" fill="#F9D5A7" stroke="#8B5E3C" stroke-width="2" />
+            <rect x="10" y="10" width="8" height="20" rx="1" fill="#FF9AA2" />
+            <rect x="20" y="10" width="10" height="8" rx="1" fill="#B5EAD7" />
+            <rect x="20" y="22" width="10" height="8" rx="1" fill="#C7CEEA" />
+        </svg>
+        <h1 class="main-title">Welcome to my App!</h1>
+    </div>
+    <p class="subtitle">By Leanne Cassandra Bosing ✨📚</p>
+</div>
+
 <script>
     function showSearchBox(){
         $('#searchBox').show();
