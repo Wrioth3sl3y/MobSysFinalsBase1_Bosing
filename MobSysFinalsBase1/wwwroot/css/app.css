@@ -529,3 +529,324 @@ article section:not(:first-child) {
     border:none;
     /*box-shadow:0px 0px 8px #CCC;*/
 }
+
+
+/* For Library */
+
+/* Layout containers */
+.main-container {
+    width: 100%;
+    max-width: 430px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem 0.7rem; 
+    position: relative;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+    .main-container {
+        max-width: 650px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .main-container {
+        max-width: 980px;
+    }
+}
+
+/* Prevent horizontal overflow on all elements */
+html, body, #app, .main-container {
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Body background and font */
+body {
+    font-family: 'Varela Round', sans-serif;
+    background-color: #FFF6E9;
+    margin: 0;
+    padding: 0;
+    min-width: 100vw;
+    width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+}
+
+.logo-svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    flex-shrink: 0;
+}
+
+.main-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.subtitle {
+    color: #FFF6E9;
+    font-size: 0.95rem;
+    margin-top: 0.18rem;
+    margin-bottom: 0;
+}
+
+/* Controls row */
+.controls-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.category-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.18rem;
+    justify-content: center;
+}
+
+.view-flex {
+    display: flex;
+    gap: 0.18rem;
+}
+
+/* Button corners */
+.rounded-left {
+    border-radius: 9999px 0 0 9999px;
+}
+
+.rounded-right {
+    border-radius: 0 9999px 9999px 0;
+}
+
+/* Book grid and list */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+}
+
+@media (max-width: 349px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 700px) {
+    .books-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .books-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.books-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.book-card-list {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+}
+
+.book-cover-list {
+    border-radius: 7px;
+    box-shadow: 1.5px 3px rgba(0, 0, 0, 0.1);
+    width: 38px;
+    min-width: 38px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFB7B2 !important;
+}
+
+.book-list-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-cover {
+    border-radius: 7px;
+    box-shadow: 1.5px 3px rgba(0, 0, 0, 0.08);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFB7B2 !important;
+}
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
+.header-bg {
+    background-color: #A67C52;
+    border-bottom: 4px solid #885E3C;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.category-btn {
+    background-color: #F9D5A7;
+    border: 2px solid #E6B17E;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    font-weight: bold;
+    color: #885E3C;
+    outline: none;
+    padding: 0.17em 0.66em;
+    font-size: 0.93rem;
+    min-width: 0;
+}
+
+    .category-btn:hover,
+    .category-btn.active {
+        background-color: #E6B17E;
+        transform: translateY(-1px);
+        color: #885E3C;
+    }
+
+.view-btn {
+    background-color: #85EAD7;
+    border: 2px solid #8ED1BD;
+    transition: all 0.2s ease;
+    color: #8B5E3C;
+    outline: none;
+    padding: 0.17em 0.66em;
+    font-size: 0.93rem;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .view-btn:hover,
+    .view-btn.active {
+        background-color: #8ED1BD;
+        transform: translateY(-1px);
+    }
+
+.icon-svg {
+    width: 1.09rem;
+    height: 1.09rem;
+    color: #8B5E3C;
+    stroke: #8B5E3C;
+    display: inline;
+    vertical-align: middle;
+}
+
+.book-card {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 2.5px 8px rgba(0, 0, 0, 0.09);
+    transition: all 0.2s ease;
+    overflow: hidden;
+    padding: 0.55rem 0.4rem 0.5rem 0.4rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+    .book-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.13);
+    }
+
+.favorite-btn {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #FF9AA2;
+    font-size: 1.13em;
+    padding: 0;
+}
+
+    .favorite-btn:hover {
+        transform: scale(1.13);
+        color: #FF8B94;
+    }
+
+.amazon-btn {
+    background-color: #FF9A42;
+    border: 2px solid #FF8894;
+    transition: all 0.2s ease;
+    font-weight: bold;
+    color: #fff !important;
+    text-decoration: none;
+    outline: none;
+    cursor: default;
+    user-select: none;
+    border-radius: 11px;
+    font-size: 0.87rem;
+    padding: 0.18em 0.7em;
+    margin-top: 0.12rem;
+}
+
+    .amazon-btn:hover {
+        background-color: #FF8B94;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+.book-title {
+    font-size: 0.98rem;
+    font-weight: bold;
+    color: #8b5e3c;
+    margin-bottom: 0.07rem;
+}
+
+.book-author {
+    color: #a67c52;
+    font-size: 0.76rem;
+    margin-bottom: 0.18rem;
+}
+
+.book-desc {
+    color: #8b5e3c;
+    font-size: 0.84rem;
+    margin-bottom: 0.18rem;
+    flex-grow: 1;
+}
+
+.book-spine {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 0;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 2px rgba(0, 0, 0, 0.2);
+    font-size: 0.73rem;
+}
+
+/* Utility */
+* {
+    box-sizing: border-box;
+}
