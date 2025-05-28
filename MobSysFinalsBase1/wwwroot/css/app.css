@@ -539,7 +539,7 @@ article section:not(:first-child) {
     max-width: 430px;
     margin-left: auto;
     margin-right: auto;
-    padding: 1rem 0.7rem; 
+    padding: 1rem 0.7rem;
     position: relative;
     z-index: 10;
     box-sizing: border-box;
@@ -557,13 +557,11 @@ article section:not(:first-child) {
     }
 }
 
-/* Prevent horizontal overflow on all elements */
 html, body, #app, .main-container {
     box-sizing: border-box;
     overflow-x: hidden;
 }
 
-/* Body background and font */
 body {
     font-family: 'Varela Round', sans-serif;
     background-color: #FFF6E9;
@@ -634,7 +632,6 @@ body {
     border-radius: 0 9999px 9999px 0;
 }
 
-/* Book grid and list */
 .books-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -680,7 +677,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #FFB7B2 !important;
+    overflow: hidden;
+}
+
+.book-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .book-list-content {
@@ -696,10 +700,27 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #FFB7B2 !important;
+    overflow: hidden;
+    position: relative;
 }
 
-/* Import Google Fonts */
+/* Genre color label */
+.genre-color-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.18em 0.7em;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.09);
+    z-index: 2;
+    opacity: 0.93;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.14);
+}
+
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
 
 .header-bg {
@@ -846,7 +867,6 @@ body {
     font-size: 0.73rem;
 }
 
-/* Utility */
 * {
     box-sizing: border-box;
 }
