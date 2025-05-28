@@ -14,7 +14,7 @@
             <i class="fa fa-times"></i>
         </span>
     </div>
-    
+
     <span id="controlBox" style="@(ShowSearchBox ? "display:none;" : "")">
         <button class="btn text-warning" @onclick="ShowSearchBoxFunc">
             <i class="fa fa-search"></i>
@@ -108,9 +108,13 @@
                     </div>
                     <p class="text-[#A67C52] text-sm mb-2">by @book.Author</p>
                     <p class="text-[#8B5E3C] text-sm mb-4 flex-grow">@book.Description</p>
-                    <div class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded cursor-default select-none">
+                    <!-- Amazon Link Button -->
+                    <a href="https://www.amazon.com/dp/@book.AmazonId"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded hover:bg-[#e67c3c] transition select-none block mt-2">
                         Buy on Amazon
-                    </div>
+                    </a>
                 </div>
             }
         </div>
@@ -137,9 +141,13 @@
                             <span class="px-3 py-1 text-white text-xs rounded-full" style="background-color:@GetGenreColor(book.Category);">
                                 @book.Category
                             </span>
-                            <div class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded cursor-default select-none">
+                            <!-- Amazon Link Button -->
+                            <a href="https://www.amazon.com/dp/@book.AmazonId"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="amazon-btn text-white text-center px-3 py-1 bg-[#FF9A42] rounded hover:bg-[#e67c3c] transition select-none block">
                                 Buy on Amazon
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -255,12 +263,11 @@
         }
     };
 
-    <!-- search -->
+    // search
     private string Search { get; set; } = string.Empty;
     private bool ShowSearchBox { get; set; } = false;
 
-
-    <!-- Category and favorites feature -->
+    // Category and favorites feature
     private string CurrentCategory = "all";
     private string CurrentView = "grid";
 

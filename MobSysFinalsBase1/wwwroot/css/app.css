@@ -920,3 +920,21 @@ body {
     text-align: center;
     position: relative;
 }
+
+.hamster-gif-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.hamster-gif {
+    max-width: 230px;
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 4px 18px 2px #ffe2b85e;
+    background: #FFF6E9;
+    padding: 0.5rem;
+}

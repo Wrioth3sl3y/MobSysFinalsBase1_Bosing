@@ -1,4 +1,18 @@
 ﻿@page "/register"
+
+<!-- Header -->
+<header class="header-bg text-center mb-8 py-6 rounded-xl" style="max-width:430px; margin:2rem auto 1.5rem;">
+    <div class="header-flex">
+        <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+            <rect x="5" y="5" width="30" height="30" rx="2" fill="#F9D5A7" stroke="#8B5E3C" stroke-width="2" />
+            <rect x="10" y="10" width="8" height="20" rx="1" fill="#FF9AA2" />
+            <rect x="20" y="10" width="10" height="8" rx="1" fill="#B5EAD7" />
+            <rect x="20" y="22" width="10" height="8" rx="1" fill="#C7CEEA" />
+        </svg>
+        <h1 class="main-title">Register ✨</h1>
+    </div>
+</header>
+
 <form @onsubmit="RegisterUser">
     <div class="card enhanced">
         @if (!string.IsNullOrWhiteSpace(StatusMessage))
